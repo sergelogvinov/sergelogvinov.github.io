@@ -1,6 +1,4 @@
-# sergelogvinov.github.io
-
-About me.
+# About me
 
 Since 2018 I have been working on Hybrid Cloud solutions (One kubernetes cluster in different datacenters/cloud providers).
 First, I started to use my own Kubernetes bootstrap tools, but now I prefer to use [Talos](talos.dev).
@@ -40,10 +38,11 @@ I have experience (as a developer) in the following Kubernetes areas:
 
 ## Kubernetes world
 
-I have been using the Kubernetes since 0.3 version.
-Kubeadm was unstable and I made my tools to bootstrap the cluster.
-The first edition was based on a puppet.
-When I replaced it by [ansible-role-kubernetes](https://github.com/sergelogvinov/ansible-role-kubernetes), my own solution (The hard way).
+I have been using Kubernetes since version 0.3.
+When Kubeadm was unstable,
+I created my own tools to bootstrap Kubernetes clusters.
+The first version was based on Puppet,
+and later I transitioned to using my custom solution [ansible-role-kubernetes](https://github.com/sergelogvinov/ansible-role-kubernetes), the hard way.
 Now it is deprecated, and does not supported anymore.
 
 Average bootstrap time on bare metal:
@@ -106,11 +105,10 @@ Openstack custom network plugins.
 
 ## Network
 
-Distributed DNS clusters in different datacenters.
-L3 cisco switches with an access policy to protect production environments against dev-clusters.
-Port mirroring for analytics.
-Make load tests based on real requests.
-BGP uses inside data centers for load balancing.
+I managed distributed DNS clusters across different datacenters,
+utilizing L3 Cisco switches with access policies to protect production environments from development clusters.
+I implemented port mirroring for analytics and conducted load tests based on real user requests.
+Additionally, I used BGP within datacenters for efficient load balancing.
 
 * l7 ddos protection
 * firewalls - iptables + ipsets, pf
@@ -151,13 +149,11 @@ Most popular tools:
 
 ## Blockchain
 
-Our own testnets for bitcoin/ethereum/waves.
-It helps to make a integration tests in ci/cd piplelines.
-I launched a distributed cryptocurrency network in different countries (production env).
-Based on kubernetes and helm deployments + prometheus exporters/grafana dashboards/alerts.
-It looks like infura does.
+I set up our own testnets for Bitcoin, Ethereum, and Waves to facilitate integration testing within CI/CD pipelines.
+I launched a distributed cryptocurrency network in production environments across multiple countries, leveraging Kubernetes and Helm for deployments.
+This setup included Prometheus exporters, Grafana dashboards, and alerts, similar to Infura's infrastructure.
 
-Create a smart contract on ethereum network.
+Additionally, I developed and deployed a smart contract on the Ethereum network.
 
 Experience in production env:
 * ethereum
