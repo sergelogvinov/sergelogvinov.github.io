@@ -2,7 +2,7 @@
 
 ## Contacts
 
-* [LinkedIn](www.linkedin.com/in/sergelogvinov)
+* [LinkedIn](https://www.linkedin.com/in/sergelogvinov)
 * [GitHub](https://github.com/sergelogvinov)
 
 ## About me
