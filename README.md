@@ -1,4 +1,11 @@
-# About me
+# Serge Logvinov
+
+## Contacts
+
+* [LinkedIn](www.linkedin.com/in/sergelogvinov)
+* [GitHub](https://github.com/sergelogvinov)
+
+## About me
 
 Since 2018 I have been working on Hybrid Cloud solutions (One kubernetes cluster in different datacenters/cloud providers).
 First, I started to use my own Kubernetes bootstrap tools, but now I prefer to use [Talos](talos.dev).

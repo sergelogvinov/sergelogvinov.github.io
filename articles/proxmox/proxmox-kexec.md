@@ -1,4 +1,4 @@
-# Install Proxmox on any bare metal cloud
+# Install Proxmox on any bare metal server
 
 ## Introduction
 
@@ -61,7 +61,7 @@ I will show you the most important options:
 - `debian_grub` - Ansible will add a new entry to the GRUB menu with the Debian net installer. It will also download the netboot kernel and initrd to the server.
 - `debian_kexec` - Ansible will use kexec to reboot the server directly into the new kernel and initrd, without a full hardware reboot.
 - `debian_rebuild_initrd` - Ansible will rebuild the initrd, including the current network configuration and the custom preseed file to ensure proper booting and installation.
-- `debian_preseed` - This defines the name of the preseed file. Predefined preseed files can be found in the project.
+- `debian_preseed` - This defines the name of the preseed file. Predefined preseed files can be found in the project ([proxmox.cfg](https://github.com/sergelogvinov/ansible-role-debian-boot/blob/main/files/bookworm/proxmox.cfg), [proxmox-lvm.cfg](https://github.com/sergelogvinov/ansible-role-debian-boot/blob/main/files/bookworm/proxmox-lvm.cfg)).
 - `debian_preseed_password` - The root password that will be used during the installation.
 - `debian_sshkey` - The SSH key that will be added for root user access.
 
@@ -81,17 +81,67 @@ It helps to boot the server with the Debian net installer, in case if you have a
 
 Some old servers or arm-based boards do not support the `kexec` command, so you can use the grub menu to boot the server with the Debian net installer.
 
+Check new entry in the grub menu:
+
+```bash
+grep -A 4 'Debian Net' /boot/grub/grub.cfg
+```
+
+Output:
+
+```bash
+menuentry "Debian Net Installer" {
+    linux /boot/debian-kernel  keymap=us language=en country=US locale=en_US.UTF-8 priority=critical   url=https://raw.githubusercontent.com/sergelogvinov/ansible-role-debian-boot/main/files/bookworm/proxmox-lvm.cfg
+    initrd /boot/debian-initrd.gz
+}
+### END /etc/grub.d/15_debian_installer ###
+```
+
 ### Boot with kexec
 
 `debian_kexec: true` will use the `kexec` to boot the server with the new kernel and initrd.
 If you do not have access to the server console, you can use the `kexec` to boot the server with the new kernel and initrd.
-After successful loading the new kernel and initrd, the server will boot with the `Debian net installer` with the `preseed` file.
+After successful loading the new kernel and initrd, the server will boot with the `Debian Net installer` with the `preseed` file.
+
+__Cautions__: this option will reboot the operation system without any confirmation and __format the disk__.
 
 ### Rebuild initrd
 
 `debian_rebuild_initrd: true` will download and rebuild the initrd with the network configuration, ssd keys and the preseed file.
 All necessary files will be added to the initrd.
 And dyring the boot process, the installer will use the network configuration and the preseed file stored in the initrd.
+
+Ansible will add the following files to the initrd:
+
+```bash
+find /boot/preseed/ -type f
+```
+
+Output:
+
+```bash
+# Additional network configuration (for bonding interfaces)
+/boot/preseed/lib/debian-installer.d/S25bonding-interfaces
+# Sshd configuration
+/boot/preseed/lib/debian-installer.d/S60sshd
+# Helper script to keep the network up (for bonding interfaces)
+/boot/preseed/usr/bin/if-keep-up.sh
+# ssh_host keys copied from the host
+/boot/preseed/etc/ssh/sshd_config
+/boot/preseed/etc/ssh/ssh_host_rsa_key
+/boot/preseed/etc/ssh/ssh_host_ed25519_key
+/boot/preseed/etc/ssh/ssh_host_ecdsa_key.pub
+/boot/preseed/etc/ssh/authorized_keys
+/boot/preseed/etc/ssh/ssh_host_ecdsa_key
+/boot/preseed/etc/ssh/ssh_host_ed25519_key.pub
+/boot/preseed/etc/ssh/ssh_host_rsa_key.pub
+# Pinning the network interface
+/boot/preseed/etc/udev/rules.d/70-persistent-net.rules
+# For manual network trubleshooting (network config from previous OS)
+/boot/preseed/network.sh
+# Preseed file
+/boot/preseed/debian-preseed.cfg
+```
 
 ### Preseed file
 
@@ -193,7 +243,7 @@ debian_interface: bond0
 Ansible will then add the necessary scripts to the initrd, ensuring that the bonding interface (bond0) is properly initialized.
 This will allow the network interfaces to be set up correctly during the installation process, enabling network access for the installer.
 
-### Post-installation tasks
+## Post-installation tasks
 
 After the installation, pressid run [following tasks](https://raw.githubusercontent.com/sergelogvinov/ansible-role-debian-boot/main/files/bookworm/proxmox-playbook.yaml):
 
@@ -245,6 +295,7 @@ Add the role to the playbook:
 ```
 
 It adds the Proxmox repository and installs the Proxmox packages.
+After the installation, reboot the server.
 
 ## Conclusion
 
