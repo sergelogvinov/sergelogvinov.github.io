@@ -145,6 +145,13 @@ Output:
 
 ### Preseed file
 
+Customize the preseed file, which will be used to install the Debian.
+Official [preseed example](https://preseed.debian.net/debian-preseed/bullseye/amd64-main-full.txt).
+
+```yaml
+debian_preseed: "https://raw.githubusercontent.com/sergelogvinov/ansible-role-debian-boot/main/files/{{ debian_version }}/proxmox.cfg"
+```
+
 #### Preseed file with Soft RAID1
 
 The Proxmox installer does not support `Soft RAID1`, only `zfs` for redundancy to the root partition.
@@ -195,10 +202,6 @@ lvm partition: `root` - 20G, `vz` - 4G, volume group `data` - all free space
 You can clone the project and modify the preseed file for your needs.
 Preseed variable `debian_preseed` can be a URL to the preseed file.
 Or use `debian_rebuild_initrd` flag to add everything to the initrd.
-
-```yaml
-debian_preseed: "https://raw.githubusercontent.com/sergelogvinov/ansible-role-debian-boot/main/files/{{ debian_version }}/proxmox.cfg"
-```
 
 ### Rescue mode
 
@@ -301,5 +304,7 @@ After the installation, reboot the server.
 
 We've had an old operating system on the server, and we've installed Debian with a custom partitioning scheme and network configuration, without manual intervention.
 And than we've installed Proxmox on top of it.
+
+The project [ansible-role-debian-boot](https://github.com/sergelogvinov/ansible-role-debian-boot) under __MIT license__, so feel free to fork and modify this project. Just remember to leave a star on the project :)
 
 I hope this article helps you successfully install Debian and Proxmox on any hosting provider.
