@@ -46,24 +46,27 @@ I will show you the most important options:
 # Reinstall the server with Debian
 - hosts: all
   vars:
+    # add a new entry to the GRUB menu with the Debian net installer. It will also download the netboot kernel and initrd to the server. (default: false)
     debian_grub: true
+    # use kexec to reboot the server directly into the new kernel and initrd, without a full hardware reboot. (default: false)
     debian_kexec: true
+    # rebuild the initrd, including the current network configuration and the custom preseed file to ensure proper booting and installation. (optional)
     debian_rebuild_initrd: true
 
+    # Name or URL of the preseed file
+    debian_preseed: proxmox.cfg
+
+    # root password that will be used during the installation.
     debian_preseed_password: "password"
+    # ssh key that will be added for root user.
     debian_sshkey: "ssh-rsa AAAA"
 
-    debian_preseed: proxmox.cfg
   roles:
     - ansible-role-debian-boot
 ```
 
-- `debian_grub` - Ansible will add a new entry to the GRUB menu with the Debian net installer. It will also download the netboot kernel and initrd to the server.
-- `debian_kexec` - Ansible will use kexec to reboot the server directly into the new kernel and initrd, without a full hardware reboot.
-- `debian_rebuild_initrd` - Ansible will rebuild the initrd, including the current network configuration and the custom preseed file to ensure proper booting and installation.
-- `debian_preseed` - This defines the name of the preseed file. Predefined preseed files can be found in the project ([proxmox.cfg](https://github.com/sergelogvinov/ansible-role-debian-boot/blob/main/files/bookworm/proxmox.cfg), [proxmox-lvm.cfg](https://github.com/sergelogvinov/ansible-role-debian-boot/blob/main/files/bookworm/proxmox-lvm.cfg)).
-- `debian_preseed_password` - The root password that will be used during the installation.
-- `debian_sshkey` - The SSH key that will be added for root user access.
+Predefined __preseed files__ can be found here [proxmox.cfg](https://github.com/sergelogvinov/ansible-role-debian-boot/blob/main/files/bookworm/proxmox.cfg), [proxmox-lvm.cfg](https://github.com/sergelogvinov/ansible-role-debian-boot/blob/main/files/bookworm/proxmox-lvm.cfg).
+
 
 The Ansible playbook configures the Debian net installer with the preseed file and the necessary boot arguments. Specifically, it will:
 
@@ -76,7 +79,7 @@ __Important__: Remember to change the root password after the installation is co
 
 ### Grub menu
 
-`debian_grub: true` will add the new entry to the grub menu with the Debian net installer.
+`debian_grub: true` - will add the new entry to the grub menu with the Debian net installer.
 It helps to boot the server with the Debian net installer, in case if you have access to the server console or through changing the boot order.
 
 Some old servers or arm-based boards do not support the `kexec` command, so you can use the grub menu to boot the server with the Debian net installer.
@@ -99,7 +102,7 @@ menuentry "Debian Net Installer" {
 
 ### Boot with kexec
 
-`debian_kexec: true` will use the `kexec` to boot the server with the new kernel and initrd.
+`debian_kexec: true` - will use the `kexec` to boot the server with the new kernel and initrd.
 If you do not have access to the server console, you can use the `kexec` to boot the server with the new kernel and initrd.
 After successful loading the new kernel and initrd, the server will boot with the `Debian Net installer` with the `preseed` file.
 
@@ -107,7 +110,7 @@ __Cautions__: this option will reboot the operation system without any confirmat
 
 ### Rebuild initrd
 
-`debian_rebuild_initrd: true` will download and rebuild the initrd with the network configuration, ssd keys and the preseed file.
+`debian_rebuild_initrd: true` - will download and rebuild the initrd with the network configuration, ssd keys and the preseed file.
 All necessary files will be added to the initrd.
 And dyring the boot process, the installer will use the network configuration and the preseed file stored in the initrd.
 
