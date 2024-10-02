@@ -77,7 +77,14 @@ The Ansible playbook configures the Debian net installer with the preseed file a
 
 __Important__: Remember to change the root password after the installation is complete for security reasons.
 
-### Grub menu
+## Options
+
+* [Install through GRUB menu](#install-through-grub-menu)
+* [Install through kexec](#install-through-kexec)
+* [Install in rescue mode](#install-in-rescue-mode)
+* [Install with bond interface](#install-with-bond-interface)
+
+## Install through GRUB menu
 
 `debian_grub: true` - will add the new entry to the grub menu with the Debian net installer.
 It helps to boot the server with the Debian net installer, in case if you have access to the server console or through changing the boot order.
@@ -100,7 +107,7 @@ menuentry "Debian Net Installer" {
 ### END /etc/grub.d/15_debian_installer ###
 ```
 
-### Boot with kexec
+## Install through kexec
 
 `debian_kexec: true` - will use the `kexec` to boot the server with the new kernel and initrd.
 If you do not have access to the server console, you can use the `kexec` to boot the server with the new kernel and initrd.
@@ -206,7 +213,7 @@ You can clone the project and modify the preseed file for your needs.
 Preseed variable `debian_preseed` can be a URL to the preseed file.
 Or use `debian_rebuild_initrd` flag to add everything to the initrd.
 
-### Rescue mode
+## Install in rescue mode
 
 If you cloud provider has a `rescue mode`, you can use it to boot the server and run the ansible playbook to install Debian.
 As all operation system runs in memory, you can use only `kexec` installation method.
@@ -227,7 +234,7 @@ As all operation system runs in memory, you can use only `kexec` installation me
     - ansible-role-debian-boot
 ```
 
-### Install with bond interface
+## Install with bond interface
 
 The Debian net installer does not support bonding interfaces (port channels) by default.
 However, some hosting providers require the use of bonding interfaces for network connectivity.
