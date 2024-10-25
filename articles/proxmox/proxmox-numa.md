@@ -9,12 +9,12 @@ These servers have complex CPU designs to handle many cores in one socket.
 To manage large amounts of RAM, they use Non-Uniform Memory Access (NUMA).
 NUMA improves memory access speed by splitting memory into different nodes, where each node has its own memory and CPU cores.
 
-To make it easier to understand, let's use the AMD Zen 4 architecture (EPYC 9004) as an example
+To make it easier to understand, let's use the AMD Zen 4 architecture (EPYC 9004) as an example.
 This architecture is designed with multiple cores and supports a large amount of memory.
 In this setup, the NUMA architecture splits the system into different nodes, where each node has its own dedicated memory and CPU cores.
 
 ![AMD Zen 4 architecture](./img/numa.png)
-[Origin schema 4th generation architecture source](https://www.amd.com/en/products/processors/server/epyc/4th-generation-architecture.html)
+[Origin schema 4th generation architecture](https://www.amd.com/en/products/processors/server/epyc/4th-generation-architecture.html)
 
 In this example, we have 4 NUMA nodes.
 Each node is directly connected to its own set of memory slots.
