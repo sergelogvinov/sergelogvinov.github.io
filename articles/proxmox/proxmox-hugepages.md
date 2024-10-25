@@ -98,9 +98,11 @@ In the output, we have 4 nodes with 128Gb for each node, and node has 112 HugePa
 ## How to configure HugePages for VMs
 
 Most of the HugePages parameters do not accessible from the Proxmox GUI. You have to configure them through the command line or API.
+Here we will use 1GB HugePages size, and amount of HugePages is depending on the VM memory parameter (8192 MB in this example - 8 HugePages).
 
 ```yaml
 # VM config /etc/pve/qemu-server/$ID.conf
+memory: 8192
 hugepages: 1024
 keephugepages: 1
 ```
