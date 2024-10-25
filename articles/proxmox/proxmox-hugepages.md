@@ -38,13 +38,13 @@ To configure HugePages, you have to edit the `/etc/default/grub` file and add th
 GRUB_CMDLINE_LINUX="default_hugepagesz=1G hugepagesz=1G hugepages=16"
 ```
 
-For NUMA architecture, you have to set the `hugepagesz` and `hugepages` parameters for each node. For example, if you have 2 nodes, you have to set the `hugepages` parameters for each node.
+For NUMA architecture, you have to set the `hugepagesz` and `hugepages` parameters for each node. For example, if you have 2 nodes, you have to set the `hugepages` parameters for each node, splitting by a comma `$HUNODE:$AMOUNT,$HUNODE:$AMOUNT`.
 
 ```bash
 GRUB_CMDLINE_LINUX="default_hugepagesz=1G hugepagesz=1G hugepages=0:8,1:8"
 ```
 
-The Linux kernel can reserve 16GB of memory for HugePages, but this reserved memory is exclusively for HugePages and won’t be available to other applications. You need to calculate the number of HugePages based on your server’s total memory, ensuring there is enough left for the operating system and other applications. The operating system should have at least 1GB of free memory. If you're using ZFS or Ceph, make sure to reserve additional memory for them.
+The Linux kernel reserves 16GB of memory for HugePages, but this reserved memory is exclusively for HugePages and won’t be available to other applications. You need to calculate the number of HugePages based on your server’s total memory, ensuring there is enough left for the operating system and other applications. The operating system should have at least 1GB of free memory. If you're using ZFS or Ceph, make sure to reserve additional memory for them.
 
 After you edit the `/etc/default/grub` file, you have to update the grub configuration file by running the following command:
 
@@ -98,6 +98,7 @@ In the output, we have 4 nodes with 128Gb for each node, and node has 112 HugePa
 ## How to configure HugePages for VMs
 
 Most of the HugePages parameters do not accessible from the Proxmox GUI. You have to configure them through the command line or API.
+
 Here we will use 1GB HugePages size, and amount of HugePages is depending on the VM memory parameter (8192 MB in this example - 8 HugePages).
 
 ```yaml
