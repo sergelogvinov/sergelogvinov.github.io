@@ -151,12 +151,12 @@ Output should be like this.
 
 ```bash
 4: enp129s0f0np0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9000 qdisc mq master ovs-system state UP mode DEFAULT group default qlen 1000
-    link/ether c4:70:bd:12:ac:52 brd ff:ff:ff:ff:ff:ff promiscuity 1  allmulti 0 minmtu 68 maxmtu 9978
+    link/ether c4:70:bd:16:64:32 brd ff:ff:ff:ff:ff:ff promiscuity 1  allmulti 0 minmtu 68 maxmtu 9978
     openvswitch_slave addrgenmode none numtxqueues 768 numrxqueues 63 gso_max_size 65536 gso_max_segs 65535 tso_max_size 524280 tso_max_segs 65535 gro_max_size 65536 portname p0 switchid 52ac120003bd70c4 parentbus pci parentdev 0000:81:00.0
-    vf 0     link/ether c4:70:bd:ff:ff:e0 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
-    vf 1     link/ether c4:70:bd:ff:ff:e1 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
-    vf 2     link/ether c4:70:bd:ff:ff:e2 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
-    vf 3     link/ether c4:70:bd:ff:ff:e3 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
+    vf 0     link/ether c4:70:ff:ff:ff:e0 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
+    vf 1     link/ether c4:70:ff:ff:ff:e1 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
+    vf 2     link/ether c4:70:ff:ff:ff:e2 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
+    vf 3     link/ether c4:70:ff:ff:ff:e3 brd ff:ff:ff:ff:ff:ff, spoof checking off, link-state auto, trust off, query_rss off
 ```
 
 vf 0, vf 1, vf 2, vf 3 are the virtual functions.
