@@ -28,7 +28,14 @@ lspci -nn | grep Ethernet
 81:00.1 Ethernet controller [0200]: Mellanox Technologies MT2894 Family [ConnectX-6 Lx] [15b3:101f]
 ```
 
-We need to find the `switchid` of the network adapter, here is `3264160003bd70c4`.
+Find the network interface name.
+
+```bash
+dmesg | grep 81:00.0 | grep renamed
+mlx5_core 0000:81:00.0 enp129s0f0np0: renamed from eth2
+```
+
+We need to find the `switchid` of the network adapter `enp129s0f0np0`, result is `3264160003bd70c4`.
 It is used to identify the network adapter in the Open vSwitch configuration.
 
 ```bash
@@ -154,6 +161,38 @@ Output should be like this.
 
 vf 0, vf 1, vf 2, vf 3 are the virtual functions.
 
+## Configure the bond interface
+
+Add network bond interface.
+Where `enp129s0f0np0` and `enp129s0f1np1` are the physical network adapters.
+
+* vi /etc/network/interfaces
+
+```bash
+auto enp129s0f0np0
+iface enp129s0f0np0 inet manual
+
+auto enp129s0f1np1
+iface enp129s0f1np1 inet manual
+
+auto vmbr1
+iface vmbr1 inet static
+        ovs_type OVSBridge
+        ovs_ports bond1
+        ovs_mtu 9000
+        address 192.168.1.2/24
+
+auto bond1
+iface bond1 inet manual
+        ovs_type OVSBond
+        ovs_bonds enp129s0f0np0 enp129s0f1np1
+        ovs_bridge vmbr1
+        ovs_mtu 9000
+        ovs_options lacp=active bond_mode=balance-tcp
+```
+
+Reboot the server.
+
 ## Add the virtual functions to the Open vSwitch
 
 * vi /etc/network/interfaces.d/ovs-sw1.conf
@@ -202,37 +241,7 @@ Output should be like this.
 17: ovs-sw1pf0vf3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9000 qdisc mq master ovs-system state UP mode DEFAULT group default qlen 1000
 ```
 
-## Configure the bond interface
-
-Add network bond interface.
-Where `enp129s0f0np0` and `enp129s0f1np1` are the physical network adapters.
-
-* vi /etc/network/interfaces
-
-```bash
-auto enp129s0f0np0
-iface enp129s0f0np0 inet manual
-
-auto enp129s0f1np1
-iface enp129s0f1np1 inet manual
-
-auto vmbr1
-iface vmbr1 inet static
-        ovs_type OVSBridge
-        ovs_ports bond1
-        ovs_mtu 9000
-        address 192.168.1.2/24
-
-auto bond1
-iface bond1 inet manual
-        ovs_type OVSBond
-        ovs_bonds enp129s0f0np0 enp129s0f1np1
-        ovs_bridge vmbr1
-        ovs_mtu 9000
-        ovs_options lacp=active bond_mode=balance-tcp
-```
-
-Reboot the server.
+Now we have bonding interface `bond1` and virtual functions `ovs-sw1pf0vf0`, `ovs-sw1pf0vf1`, `ovs-sw1pf0vf2`, `ovs-sw1pf0vf3` connected to the virtual switch `vmbr1` offloaded to the network hardware. We can use these interfaces in the virtual machines configuration, attached as a PCI device `0000:81:00.2` - `0000:81:00.5`.
 
 ## Configure the Proxmox
 
