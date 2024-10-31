@@ -263,6 +263,129 @@ Go to the Proxmox web interface, Nodes -> your node -> Hardware -> PCI Devices -
 
 After the changes, start the virtual machine.
 
+## Check the Virtual Machine
+
+We've lunched the virtual machine with 16 vCPU, and `eth1` is the virtual function `ovs-sw1pf0vf0`. Linux kernel `6.1.82`.
+
+```bash
+# lscpu
+...
+Virtualization features:
+  Virtualization:         AMD-V
+  Hypervisor vendor:      KVM
+  Virtualization type:    full
+Caches (sum of all):
+  L1d:                    1 MiB (16 instances)
+  L1i:                    1 MiB (16 instances)
+  L2:                     8 MiB (16 instances)
+  L3:                     256 MiB (16 instances)
+NUMA:
+  NUMA node(s):           1
+  NUMA node0 CPU(s):      0-15
+```
+
+```bash
+# ip -d link show eth1
+9: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9000 qdisc mq state UP mode DEFAULT group default qlen 1000
+    link/ether c4:70:ff:ff:ff:e0 brd ff:ff:ff:ff:ff:ff promiscuity 0 minmtu 68 maxmtu 9978 addrgenmode eui64 numtxqueues 96 numrxqueues 11 gso_max_size 65536 gso_max_segs 65535
+```
+
+Driver version:
+
+```bash
+# ethtool -i eth1
+driver: mlx5_core
+version: 6.1.82-talos
+firmware-version: 26.36.1010 (MT_0000000547)
+expansion-rom-version:
+bus-info: 0000:00:10.0
+supports-statistics: yes
+supports-test: yes
+supports-eeprom-access: no
+supports-register-dump: no
+supports-priv-flags: yes
+```
+
+Netwok settings:
+
+```bash
+# ethtool eth1
+Settings for eth1:
+	Supported ports: [ Backplane ]
+	Supported link modes:   1000baseT/Full
+	                        10000baseT/Full
+	                        1000baseKX/Full
+	                        10000baseKR/Full
+	                        10000baseR_FEC
+	                        25000baseCR/Full
+	                        25000baseKR/Full
+	                        25000baseSR/Full
+	                        1000baseX/Full
+	                        10000baseCR/Full
+	                        10000baseSR/Full
+	                        10000baseLR/Full
+	                        10000baseER/Full
+	Supported pause frame use: Symmetric
+	Supports auto-negotiation: Yes
+	Supported FEC modes: Not reported
+	Advertised link modes:  1000baseT/Full
+	                        10000baseT/Full
+	                        1000baseKX/Full
+	                        10000baseKR/Full
+	                        10000baseR_FEC
+	                        25000baseCR/Full
+	                        25000baseKR/Full
+	                        25000baseSR/Full
+	                        1000baseX/Full
+	                        10000baseCR/Full
+	                        10000baseSR/Full
+	                        10000baseLR/Full
+	                        10000baseER/Full
+	Advertised pause frame use: No
+	Advertised auto-negotiation: Yes
+	Advertised FEC modes: Not reported
+	Speed: 25000Mb/s
+	Duplex: Full
+	Auto-negotiation: on
+	Port: Direct Attach Copper
+	PHYAD: 0
+	Transceiver: internal
+	Supports Wake-on: d
+	Wake-on: d
+        Current message level: 0x00000004 (4)
+                               link
+	Link detected: yes
+```
+
+Netwok features:
+
+```bash
+# ethtool -k eth1 | grep " on"
+rx-checksumming: on
+tx-checksumming: on
+	tx-checksum-ip-generic: on
+scatter-gather: on
+	tx-scatter-gather: on
+tcp-segmentation-offload: on
+	tx-tcp-segmentation: on
+	tx-tcp6-segmentation: on
+generic-segmentation-offload: on
+generic-receive-offload: on
+rx-vlan-offload: on
+tx-vlan-offload: on
+receive-hashing: on
+highdma: on [fixed]
+rx-vlan-filter: on
+tx-gre-segmentation: on
+tx-gre-csum-segmentation: on
+tx-ipxip4-segmentation: on
+tx-ipxip6-segmentation: on
+tx-gso-partial: on
+tx-udp-segmentation: on
+tx-vlan-stag-hw-insert: on
+rx-vlan-stag-filter: on [fixed]
+```
+
 ## Troubleshooting
 
 ```bash
