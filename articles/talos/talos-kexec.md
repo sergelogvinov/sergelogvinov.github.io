@@ -66,6 +66,8 @@ Or use the `kexec` tool to boot the Talos.
 
 If your server uses a GRUB bootloader, you can add a boot entry to the GRUB menu.
 The role will download the Talos kernel and initrd images and automatically add a boot entry to the GRUB menu for you.
+This process does not modify the default boot priority entry.
+You will need to manually select which operating system to boot.
 
 ```yaml
 - hosts: all
