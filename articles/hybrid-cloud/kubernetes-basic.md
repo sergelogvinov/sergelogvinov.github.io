@@ -27,10 +27,11 @@ While the benefits are significant, running Kubernetes on a hybrid cloud is not 
 Kubernetes already offers several tools and features for managing hybrid cloud clusters effectively:
 * [Talos](https://talos.dev/): A secure, immutable, and minimal operating system designed for Kubernetes.
 * [Cloud Controller Manager](https://kubernetes.io/docs/concepts/architecture/cloud-controller/): Helps manage Kubernetes nodes in cloud environments.
-* Persistent Volumes: Support for multiple storage types, enabling on-premises and cloud storage usage within the same cluster.
+* [Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/): Support for multiple storage types, enabling on-premises and cloud storage usage within the same cluster.
 * [IPv6 for Pods and Services](https://dev.to/sergelogvinov/kubernetes-pods-with-global-ipv6-1aaj): Allows seamless pod-to-pod communication without the need for NAT.
 * [Internal Traffic Policy](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/): Controls how traffic is routed within the cluster.
 * [Topology Aware Routing](https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/): Optimizes network traffic routing based on the physical location of nodes.
+* [Traffic distribution](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution): Distributes traffic across multiple zones.
 
 ## Networking Setup
 
@@ -62,7 +63,7 @@ Most of the cloud providers offer addons to integrate with Kubernetes. These add
 
 * CCM (Cloud Controller Manager) requires the changes in the code, check my [already modified version](https://github.com/sergelogvinov/containers)
 * CSI (Container Storage Interface) is a standard for exposing storage systems to containerized workloads on Kubernetes. Most of them works well in hybrid cloud setup.
-* Cluster Node Autoscaler also requires some changes in [the code](https://github.com/sergelogvinov/containers/tree/main/cluster-autoscaler)
+* Cluster Node Autoscaler also requires [some changes](https://github.com/sergelogvinov/containers/tree/main/cluster-autoscaler)
 
 ## Monitor and Optimize
 
