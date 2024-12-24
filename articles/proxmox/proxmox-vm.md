@@ -1,4 +1,4 @@
-# Proxmox Virtual machine optimization
+# Proxmox Virtual Machine optimization
 
 Proxmox Virtual Environment (VE) is a powerful open-source virtualization platform used to manage virtual machines (VMs). To make your VMs run faster, you need to set them up correctly.
 
