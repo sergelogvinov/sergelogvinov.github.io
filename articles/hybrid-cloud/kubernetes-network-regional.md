@@ -1,4 +1,4 @@
-# Kubernetes on Hybrid Cloud: Network dising
+# Kubernetes on Hybrid Cloud: Network design
 
 In hybrid cloud environments, network design is one of the most important and fundamental parts. It is a basic requirement for any type of Kubernetes cluster, whether it is a single-zone cluster or a multi-regional cluster. In this article, we will explain how to design a network for a hybrid cloud Kubernetes cluster.
 
@@ -12,7 +12,7 @@ Key Considerations for Network Design:
 
 Node-to-node:
 
-All nodes in the cluster must have connectivity to each other. Control plane nodes must have access to the kubelet on each node. Nodes must have access to the control plane nodes.
+All nodes in the cluster must have connectivity to each other. Control plane nodes must have access to the kubelet on each node. Nodes must have access to the control plane nodes. If you going to use Kubernetes Admission Controllers, the control plane need access to the pods too.
 
 Pod-to-pod:
 
@@ -44,10 +44,20 @@ A mesh network is a network topology where each node establishes a connection wi
 
 ![Kubernetes-mesh!](/articles/hybrid-cloud/img/kubernetes-mesh.png)
 
+Known mesh solutions:
+* [Talos Kubespan](https://talos.dev)
+* [Cilium](https://github.com/cilium/cilium)
+* [Istio](https://github.com/istio)
+* [Linkerd](https://github.com/linkerd/linkerd2)
+* [Kilo](https://github.com/squat/kilo)
+* [TailScale](https://github.com/tailscale/tailscale)
+
 ### Public IPv6 for Pods and Services
 
 A Kubernetes cluster supports IPv6 for both Pods and Services, allowing seamless communication across regions without requiring any special configuration for cross-region traffic. This native IPv6 support simplifies networking and ensures scalability for modern cloud-native workloads.
 
 However, enabling IPv6 alone is not enough to guarantee a secure communication environment. Ensure that your applications uses mutual TLS (mTLS) or other security mechanisms to protect data in transit.
+
+See more details [here](https://dev.to/sergelogvinov/kubernetes-pods-with-global-ipv6-1aaj)
 
 Note that not all cloud providers fully support IPv6 for Kubernetes Pods and Services. Check with your cloud provider for the latest information on IPv6 support.
