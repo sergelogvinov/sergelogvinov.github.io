@@ -4,6 +4,7 @@
 
 * [LinkedIn](https://www.linkedin.com/in/sergelogvinov)
 * [GitHub](https://github.com/sergelogvinov)
+* [Dev.to](https://dev.to/sergelogvinov)
 
 ## About me
 
@@ -15,6 +16,7 @@ To implement the Hybrid Cloud solution, I contributed to the projects:
 * [Talos CCM](https://github.com/siderolabs/talos-cloud-controller-manager)
 * [Proxmox CCM](https://github.com/sergelogvinov/proxmox-cloud-controller-manager)
 * [Proxmox CSI](https://github.com/sergelogvinov/proxmox-csi-plugin)
+* [Hybrid CSI](https://github.com/sergelogvinov/hybrid-csi-plugin)
 * [Terraform manual testing](https://github.com/sergelogvinov/terraform-talos)
 * [Openstack CCM/CSI](https://github.com/kubernetes/cloud-provider-openstack)
 * Terraform plugins for different clouds
