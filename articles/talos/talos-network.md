@@ -70,6 +70,19 @@ machine:
           - '!fd00::/8'
 ```
 
+Or opposite case. If you have both public and private networks and want to use only the private network for the mesh (because the public network is slower and more expensive), you can configure the network mesh to exclusively use the private network.
+
+```yaml
+machine:
+  network:
+    kubespan:
+      filters:
+        endpoints:
+          - '192.168.0.0/16'
+          - '172.16.0.0/12'
+          - '10.0.0.0/8'
+```
+
 If you want to establish a mesh network only between datacenters while using the native network for communication between nodes within each datacenter, consider using [kilo](https://kilo.squat.ai/)
 
 Kilo can deploy as CNI plugin that creates a WireGuard-based mesh network across Kubernetes zones, region and datacenters. It allows efficient and secure connectivity between nodes in different datacenters while maintaining native networking within each datacenter. This hybrid approach can optimize performance by reducing latency and overhead for intra-datacenter traffic while ensuring secure and reliable communication between datacenters.
